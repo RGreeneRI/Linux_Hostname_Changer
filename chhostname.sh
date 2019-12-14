@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ****Tested on Ubuntu***
+# ****Tested on Ubuntu 18.04***
 
 # Variables
 OLD_HOSTNAME="`cat /etc/hostname`"
