@@ -32,8 +32,20 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
-# Prompt user to confirm hostname change
 clear
+
+# Title
+cat <<'EOF'
+  ____ _     _   _           _                              
+ / ___| |__ | | | | ___  ___| |_ _ __   __ _ _ __ ___   ___ 
+| |   | '_ \| |_| |/ _ \/ __| __| '_ \ / _` | '_ ` _ \ / _ \
+| |___| | | |  _  | (_) \__ \ |_| | | | (_| | | | | | |  __/
+ \____|_| |_|_| |_|\___/|___/\__|_| |_|\__,_|_| |_| |_|\___|
+                                                            
+EOF
+
+# Prompt user to confirm hostname change
+echo ""
 echo -e "${Cyan}Would you like to change your hostname from \"${Yellow}$OLD_HOSTNAME${Cyan}\" to \"${Yellow}$1${Cyan}\"?${NC}"
 echo -e "${Cyan}Please answer ${Green}Yes${Cyan} or ${Red}No${Cyan}...${NC}"
 #read -r key
