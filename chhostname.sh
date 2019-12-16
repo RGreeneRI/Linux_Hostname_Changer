@@ -4,6 +4,8 @@
 
 # Variables
 OLD_HOSTNAME="`cat /etc/hostname`"
+OLD_DOMAINNAME="`hostname -f | cut -d "." -f 2-3`"
+FILE_BACKUP_EXT="`date +%s`"
 
 # Text Colors
 NC='\033[0m'              # Text Reset
@@ -58,12 +60,48 @@ while true; do
     esac
 done
 
+# Backup files
+echo "Backing up original files...  Backups will have an extension of ch$FILE_BACKUP_EXT"
+cp /etc/hosts /etc/hosts.ch$FILE_BACKUP_EXT
+cp /etc/hostname /etc/hostname.ch$FILE_BACKUP_EXT
+
+
 # Change hostname
 sed -i "s/$OLD_HOSTNAME/$1/g" /etc/hosts
 sed -i "s/$OLD_HOSTNAME/$1/g" /etc/hostname
 
+# Prompt for domain name change
+echo ""
+echo -e "${Cyan}Would you like to change your domain name \"${Yellow}$OLD_DOMAINNAME${Cyan}\" to something else? Yes / No?${NC}"
+while true; do
+    read yn
+    case $yn in
+        [Yy]* ) echo ""
+		echo -e "${Cyan}Enter NEW Domain Name (ie. example.com).${NC}"
+		read NEW_DOMAINNAME;
+		echo ""
+		echo -e "${Cyan}Domain name will be changed to \"${Yellow}$NEW_DOMAINNAME${Cyan}\", Continue? (Y/N).${NC}"
+		while true; do
+		    read yn
+		    case $yn in
+		        [Yy]* ) sed -i "s/$OLD_DOMAINNAME/$NEW_DOMAINNAME/g" /etc/hosts;
+				break;;
+		        [Nn]* ) echo -e "${Cyan}Domain name NOT changed.${NC}";
+				break;;
+		        * ) echo -e "${Red}Please answer Y or N.${NC}";;
+		    esac
+		done
+		break;;
+        [Nn]* ) echo -e "${Cyan}Domain name NOT changed.${NC}";
+		break;;
+        * ) echo -e "${Red}Please answer Y or N.${NC}";;
+    esac
+done
+
 # Prompt for reboot or not
+echo ""
 echo -e "${Yellow}Would you like to reboot for the hostname to take effect? Yes / No?${NC}"
+echo -e "${Yellow}WARNING! If you made changes, reboot before running this script again...${NC}"
 while true; do
     read yn
     case $yn in
