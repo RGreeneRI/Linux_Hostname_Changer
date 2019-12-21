@@ -4,7 +4,7 @@
 
 # Variables
 OLD_HOSTNAME="`cat /etc/hostname`"
-OLD_DOMAINNAME="`hostname -f | cut -d "." -f 2-3`"
+OLD_DOMAINNAME="`hostname -f | cut -d "." -f 2-10`"
 FILE_BACKUP_EXT="`date +%s`"
 
 # Text Colors
