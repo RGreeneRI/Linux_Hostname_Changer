@@ -18,6 +18,19 @@ Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
+# Check if manual mode requested, and if root
+if [ -m == "$1" ]; then
+        echo -e "${Red}Manual mode${NC}"
+        if [ "$(id -u)" != "0" ]; then
+                echo -e "${Red}Sorry, you are not root.${NC}";
+		exit 1;
+        fi
+	sleep 1;
+	nano /etc/hostname; 
+	nano /etc/hosts;
+        exit 0;
+fi
+
 # Check if new hostname provided, and if root
 if [ ! -n "$1" ]; then
 	echo -e "${Red}Missed argument : new hostname${NC}"
