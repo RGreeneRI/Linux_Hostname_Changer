@@ -49,13 +49,14 @@ EOF
 # Prompt user to confirm hostname change
 echo ""
 echo -e "${Cyan}Would you like to change your hostname from \"${Yellow}$OLD_HOSTNAME${Cyan}\" to \"${Yellow}$1${Cyan}\"?${NC}"
-echo -e "${Cyan}Please answer ${Green}Yes${Cyan} or ${Red}No${Cyan}...${NC}"
+echo -e "${Cyan}Please answer ${Green}[Y]es${Cyan}, ${Red}[N]o${Cyan}, or [M]anual...${NC}"
 #read -r key
 while true; do
     read yn
     case $yn in
         [Yy]* ) break;;
         [Nn]* ) exit 0;;
+	[Mm]* ) nano /etc/hostname; nano /etc/hosts; exit0;
         * ) echo -e "${Red}Please answer Y or N.${NC}";;
     esac
 done
