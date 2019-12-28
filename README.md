@@ -1,7 +1,7 @@
 # Linux_Hostname_Changer
 A script to automate the hostname changing process.
 
-For interactive use:
+<B>For interactive use:</B>
 chhostname.sh [NEW_HOSTNAME]
 
 For manual use:
