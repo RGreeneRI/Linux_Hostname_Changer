@@ -25,7 +25,7 @@ if [ -m == "$1" ]; then
                 echo -e "${Red}Sorry, you are not root.${NC}";
 		exit 1;
         fi
-	echo "Backing up original files...  Backups will have an extension of ch$FILE_BACKUP_EXT";
+	echo -e "${Yellow}Backing up original files...  Backups will have an extension of ch$FILE_BACKUP_EXT${NC}";
 	cp /etc/hosts /etc/hosts.ch$FILE_BACKUP_EXT;
 	cp /etc/hostname /etc/hostname.ch$FILE_BACKUP_EXT;
 	sleep 1;
