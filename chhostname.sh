@@ -18,6 +18,36 @@ Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
+# Check if help mode requested
+if [ -h == "$1" ]; then
+        echo -e "${Green}chhostname help:${NC}"
+	echo ""
+        echo -e "${Green}You must be root to make changes to your hostname and/or domain name...${NC}"
+	echo ""
+	echo -e "${Yellow}Usage:${NC}"
+        echo -e "${Cyan}Change Hostname:            chhostname.sh [${Yellow}NEW_HOSTNAME${Cyan}]${NC}"
+        echo -e "${Cyan}Help:                       chhostname.sh ${Yellow}-h${NC}"
+        echo -e "${Cyan}List config file contents:  chhostname.sh ${Yellow}-l${NC}"
+        echo -e "${Cyan}Manually edit config files: chhostname.sh ${Yellow}-m${NC}"
+        exit 0;
+fi
+
+# Check if list mode requested, and if root
+if [ -l == "$1" ]; then
+        echo -e "${Red}Showing contents of config files below...${NC}"
+       # if [ "$(id -u)" != "0" ]; then
+       #         echo -e "${Red}Sorry, you are not root.${NC}";
+       #         exit 1;
+       # fi
+        echo -e "${Yellow}-------Begin Contents of /etc/hostname-------${NC}";
+        cat /etc/hostname;
+        echo -e "${Yellow}-------End Contents of /etc/hostname---------${NC}";
+        echo -e "${Cyan}-------Begin Contents of /etc/hosts----------${NC}";
+        cat /etc/hosts;
+        echo -e "${Cyan}-------End Contents of /etc/hosts------------${NC}";
+        exit 0;
+fi
+
 # Check if manual mode requested, and if root
 if [ -m == "$1" ]; then
         echo -e "${Red}Manual mode${NC}"
