@@ -1,11 +1,14 @@
 #!/bin/bash
 
-# ****Tested on Ubuntu 18.04***
+# A script to automate the changing of your hostname and  domain name.
+# ****Tested on Ubuntu 18.04+***
 
 # Variables
-OLD_HOSTNAME="`cat /etc/hostname`"
+HN_FILE="/etc/hostname"
+H_FILE="/etc/hosts"
+OLD_HOSTNAME="`cat $HN_FILE`"
 OLD_DOMAINNAME="`hostname -f | cut -d "." -f 2-10`"
-FILE_BACKUP_EXT="`date +%s`"
+BACKUP_EXT="ch`date +%s`"
 
 # Text Colors
 NC='\033[0m'              # Text Reset
@@ -35,12 +38,12 @@ fi
 # Check if list mode requested
 if [ -l == "$1" ]; then
         echo -e "${Red}Showing contents of config files below...${NC}"
-        echo -e "${Yellow}-------Begin Contents of /etc/hostname-------${NC}";
-        cat /etc/hostname;
-        echo -e "${Yellow}-------End Contents of /etc/hostname---------${NC}";
-        echo -e "${Cyan}-------Begin Contents of /etc/hosts----------${NC}";
-        cat /etc/hosts;
-        echo -e "${Cyan}-------End Contents of /etc/hosts------------${NC}";
+        echo -e "${Yellow}-------Begin Contents of $HN_FILE-------${NC}";
+        cat $HN_FILE;
+        echo -e "${Yellow}-------End Contents of $HN_FILE---------${NC}";
+        echo -e "${Cyan}-------Begin Contents of $H_FILE----------${NC}";
+        cat $H_FILE;
+        echo -e "${Cyan}-------End Contents of $H_FILE------------${NC}";
         exit 0;
 fi
 
@@ -51,12 +54,12 @@ if [ -m == "$1" ]; then
                 echo -e "${Red}Sorry, you are not root.${NC}";
 		exit 1;
         fi
-	echo -e "${Yellow}Backing up original files...  Backups will have an extension of ch$FILE_BACKUP_EXT${NC}";
-	cp /etc/hosts /etc/hosts.ch$FILE_BACKUP_EXT;
-	cp /etc/hostname /etc/hostname.ch$FILE_BACKUP_EXT;
+	echo -e "${Yellow}Backing up original files...  Backups will have an extension of $BACKUP_EXT${NC}";
+	cp $H_FILE $H_FILE.$BACKUP_EXT;
+	cp $HN_FILE $HN_FILE.$BACKUP_EXT;
 	sleep 1;
-	nano /etc/hostname; 
-	nano /etc/hosts;
+	nano $HN_FILE; 
+	nano $H_FILE;
         exit 0;
 fi
 
@@ -98,20 +101,25 @@ while true; do
     case $yn in
         [Yy]* ) break;;
         [Nn]* ) exit 0;;
-	[Mm]* ) cp /etc/hosts /etc/hosts.ch$FILE_BACKUP_EXT; cp /etc/hostname /etc/hostname.ch$FILE_BACKUP_EXT; nano /etc/hostname; nano /etc/hosts; exit 0;;
+	[Mm]* ) echo "Backing up original files...  Backups will have an extension of $BACKUP_EXT"
+		cp $H_FILE $H_FILE.$BACKUP_EXT;
+		cp $HN_FILE $HN_FILE.$BACKUP_EXT;
+		nano $HN_FILE;
+		nano $H_FILE;
+		exit 0;;
         * ) echo -e "${Red}Please answer Y or N.${NC}";;
     esac
 done
 
 # Backup files
-echo "Backing up original files...  Backups will have an extension of ch$FILE_BACKUP_EXT"
-cp /etc/hosts /etc/hosts.ch$FILE_BACKUP_EXT
-cp /etc/hostname /etc/hostname.ch$FILE_BACKUP_EXT
+echo "Backing up original files...  Backups will have an extension of $BACKUP_EXT"
+cp $H_FILE $H_FILE.$BACKUP_EXT
+cp $HN_FILE $HN_FILE.$BACKUP_EXT
 
 
 # Change hostname
-sed -i "s/$OLD_HOSTNAME/$1/g" /etc/hosts
-sed -i "s/$OLD_HOSTNAME/$1/g" /etc/hostname
+sed -i "s/$OLD_HOSTNAME/$1/g" $H_FILE
+sed -i "s/$OLD_HOSTNAME/$1/g" $HN_FILE
 
 # Prompt for domain name change
 echo ""
@@ -127,7 +135,7 @@ while true; do
 		while true; do
 		    read yn
 		    case $yn in
-		        [Yy]* ) sed -i "s/$OLD_DOMAINNAME/$NEW_DOMAINNAME/g" /etc/hosts;
+		        [Yy]* ) sed -i "s/$OLD_DOMAINNAME/$NEW_DOMAINNAME/g" $H_FILE;
 				break;;
 		        [Nn]* ) echo -e "${Cyan}Domain name NOT changed.${NC}";
 				break;;
@@ -144,7 +152,7 @@ done
 # Prompt for reboot or not
 echo ""
 echo -e "${Yellow}Would you like to reboot for the hostname to take effect? Yes / No?${NC}"
-echo -e "${Yellow}WARNING! If you made changes, reboot before running this script again...${NC}"
+echo -e "${Yellow}WARNING! If you made changes, reboot BEFORE running this script again...${NC}"
 while true; do
     read yn
     case $yn in
