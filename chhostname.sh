@@ -98,7 +98,7 @@ while true; do
     case $yn in
         [Yy]* ) break;;
         [Nn]* ) exit 0;;
-	[Mm]* ) nano /etc/hostname; nano /etc/hosts; exit 0;;
+	[Mm]* ) cp /etc/hosts /etc/hosts.ch$FILE_BACKUP_EXT; cp /etc/hostname /etc/hostname.ch$FILE_BACKUP_EXT; nano /etc/hostname; nano /etc/hosts; exit 0;;
         * ) echo -e "${Red}Please answer Y or N.${NC}";;
     esac
 done
