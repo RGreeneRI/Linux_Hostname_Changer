@@ -32,13 +32,9 @@ if [ -h == "$1" ]; then
         exit 0;
 fi
 
-# Check if list mode requested, and if root
+# Check if list mode requested
 if [ -l == "$1" ]; then
         echo -e "${Red}Showing contents of config files below...${NC}"
-       # if [ "$(id -u)" != "0" ]; then
-       #         echo -e "${Red}Sorry, you are not root.${NC}";
-       #         exit 1;
-       # fi
         echo -e "${Yellow}-------Begin Contents of /etc/hostname-------${NC}";
         cat /etc/hostname;
         echo -e "${Yellow}-------End Contents of /etc/hostname---------${NC}";
