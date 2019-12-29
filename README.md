@@ -1,11 +1,11 @@
 # Linux_Hostname_Changer
 A script to automate the hostname changing process.
 
-<B>Usage:</B>
-<B>Change Hostname:</B>            chhostname.sh [NEW_HOSTNAME]
-<B>Help:</B>                       chhostname.sh -h
-<B>List config file contents:</B>  chhostname.sh -l
-<B>Manually edit config files:</B> chhostname.sh -m
+<B>Usage:</B><BR>
+<B>Change Hostname:</B>            chhostname.sh [NEW_HOSTNAME]<BR>
+<B>Help:</B>                       chhostname.sh -h<BR>
+<B>List config file contents:</B>  chhostname.sh -l<BR>
+<B>Manually edit config files:</B> chhostname.sh -m<BR>
 
 If you are using interactively and something doesnt look right, choose [N] to not make changes.  If you have run the script and not rebooted, re-running will not properly detect domain name.  If all else fails, run in manual mode.
 
