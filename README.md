@@ -1,4 +1,4 @@
-# Linux_Hostname_Changer
+# Ubuntu Hostname Changer
 A script to automate the hostname changing process.
 
 <PRE>
